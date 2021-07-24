@@ -33,6 +33,7 @@ class FilmworkFactory(factory.django.DjangoModelFactory):
             self.persons.set(extracted)
 
     title = factory.Sequence(lambda n: "filmwork title %03d" % n)
+    type = factory.Sequence(lambda n: "filmwork type %03d" % n)
     creation_date = factory.Faker('date')
 
 

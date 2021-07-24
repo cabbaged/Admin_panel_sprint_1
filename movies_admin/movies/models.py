@@ -39,7 +39,7 @@ class Filmwork(TimeStampedModel):
                                validators=[MinValueValidator(0)], blank=True, null=True)
     genre = models.ManyToManyField(Genre, through='GenreFilmWork')
     persons = models.ManyToManyField(Person, through='PersonFilmWork')
-    type = models.CharField(_('тип'), max_length=20, blank=True, default='')
+    type = models.CharField(_('тип'), max_length=20)
 
     class Meta:
         verbose_name = _('кинопроизведение')
