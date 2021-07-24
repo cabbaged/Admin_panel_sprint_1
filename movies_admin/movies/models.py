@@ -1,7 +1,8 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from model_utils.models import TimeStampedModel
 from django.core.validators import MinValueValidator
+from model_utils.models import TimeStampedModel
+
 
 class Genre(TimeStampedModel):
     name = models.CharField(_('название'), max_length=255)

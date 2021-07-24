@@ -1,6 +1,8 @@
-import random
-import sys, os, django
+import django
 import factory
+import os
+import random
+import sys
 import uuid
 
 sys.path.append("..")
@@ -8,7 +10,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.dev")
 django.setup()
 
 from django.contrib.auth.models import User
-from movies.models import Genre, GenreFilmwork, Filmwork, Person, PersonFilmwork
+from movies.models import Genre, Filmwork, Person
 
 
 class PersonFactory(factory.django.DjangoModelFactory):
@@ -43,14 +45,6 @@ class GenreFactory(factory.django.DjangoModelFactory):
 
     name = factory.Sequence(lambda n: "genre name %03d" % n)
     description = factory.Sequence(lambda n: "genre description %03d" % n)
-
-
-class GenreFilmworkFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = GenreFilmwork
-
-    film_work = factory.Iterator(Filmwork.objects.all())
-    genre = factory.Iterator(Genre.objects.all())
 
 
 class UserFactory(factory.django.DjangoModelFactory):
