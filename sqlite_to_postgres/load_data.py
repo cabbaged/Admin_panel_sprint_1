@@ -94,6 +94,7 @@ class PostgresSaver:
         row = self.data[table_name][0]
         field_names = asdict(row).keys()
         columns = ",".join(field_names)
+        columns = columns.replace("created_at", "created").replace("updated_at", "modified")
         values = ",".join(["%s" for _ in field_names])
         insert_statement = f"insert into {table_name} ({columns}) values ({values})"
         return insert_statement
