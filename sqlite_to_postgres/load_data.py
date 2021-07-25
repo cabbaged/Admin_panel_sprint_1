@@ -1,3 +1,4 @@
+import argparse
 import datetime
 import psycopg2
 import sqlite3
@@ -64,14 +65,14 @@ class SQLiteLoader:
         self.data = {}
         self.table_handlers = {
             "film_work": FilmWork,
-            "genre_film_work": GenreFilmWork,
-            "person_film_work": PersonFilmWork,
             "genre": Genre,
-            "person": Person
+            "person": Person,
+            "genre_film_work": GenreFilmWork,
+            "person_film_work": PersonFilmWork
         }
 
     def load_movies(self):
-        for table_name in tuple(self.table_handlers):
+        for table_name in self.table_handlers:
             self.data[table_name] = self.get_table_content(table_name)
         return self.data
 
@@ -119,11 +120,21 @@ def load_from_sqlite(connection: sqlite3.Connection, pg_conn: _connection):
 
 
 if __name__ == "__main__":
-    dsl = {"dbname": "movies_database",
-           "user": "postgres",
-           "password": 1234,
-           "host": "127.0.0.1",
-           "port": 5432,
-           "options": "-c search_path=content"}
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--dbname", required=True)
+    parser.add_argument("--user", required=True)
+    parser.add_argument("--password", required=True)
+    parser.add_argument("--host", required=True)
+    parser.add_argument("--port", required=True)
+    parser.add_argument("--schema", required=True)
+    args = parser.parse_args()
+
+    dsl = {"dbname": args.dbname,
+           "user": args.user,
+           "password": args.password,
+           "host": args.host,
+           "port": args.port,
+           "options": f"-c search_path={args.schema}"}
+
     with sqlite3.connect("db.sqlite") as sqlite_conn, psycopg2.connect(**dsl, cursor_factory=DictCursor) as pg_conn:
         load_from_sqlite(sqlite_conn, pg_conn)

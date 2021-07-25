@@ -1,5 +1,5 @@
 1. Актуальный db.sqlite лежит в sqlite_to_postgres/
 2. Для корректной работы требуется локально развёрнутый постгрес,
 на который установлена актуальная схема скриптом schema_design/schema.sql
-3. Скрипт запускается командой:
-$ python load_data.py
+3. Скрипт запускается командой c параметрами базы данных, например:
+$ python load_data.py  --dbname movies_database --user postgres --password 1234 --host 127.0.0.1 --port 5432 --schema content
