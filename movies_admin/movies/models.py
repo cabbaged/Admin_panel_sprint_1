@@ -18,7 +18,8 @@ class Genre(TimeStampedModel):
 
 
 class Person(TimeStampedModel):
-    full_name = models.CharField(_('full name'), max_length=255)
+    first_name = models.CharField(_('first name'), max_length=255)
+    second_name = models.CharField(_('second name'), max_length=255)
     birth_date = models.DateField(_('birth date'), blank=True, null=True)
 
     class Meta:
@@ -27,7 +28,7 @@ class Person(TimeStampedModel):
         db_table = 'person'
 
     def __str__(self):
-        return self.full_name
+        return f'{self.first_name} {self.second_name}'
 
 
 class FilmworkType(models.TextChoices):
@@ -68,9 +69,10 @@ class PersonFilmwork(TimeStampedModel):
     role = models.TextField(_('role'), choices=PersonRole.choices, blank=True)
 
     class Meta:
+        db_table = 'person_film_work'
+        unique_together = [['person', 'film_work', 'role']]
         verbose_name = _('actor')
         verbose_name_plural = _('actors')
-        db_table = 'person_film_work'
 
 
 class GenreFilmwork(TimeStampedModel):
@@ -78,6 +80,7 @@ class GenreFilmwork(TimeStampedModel):
     film_work = models.ForeignKey(Filmwork, on_delete=models.CASCADE)
 
     class Meta:
+        db_table = 'genre_film_work'
+        unique_together = [['genre', 'film_work']]
         verbose_name = _('genre')
         verbose_name_plural = _('genres')
-        db_table = 'genre_film_work'
