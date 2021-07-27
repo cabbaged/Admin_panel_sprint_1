@@ -70,6 +70,9 @@ class PersonFilmwork(TimeStampedModel):
 
     class Meta:
         db_table = 'person_film_work'
+        indexes = [
+            models.Index(fields=['film_work', 'person', 'role'], name='film_work_person_role_idx'),
+        ]
         unique_together = [['person', 'film_work', 'role']]
         verbose_name = _('actor')
         verbose_name_plural = _('actors')
@@ -81,6 +84,9 @@ class GenreFilmwork(TimeStampedModel):
 
     class Meta:
         db_table = 'genre_film_work'
+        indexes = [
+            models.Index(fields=['genre', 'film_work'], name='genre_film_work_idx'),
+        ]
         unique_together = [['genre', 'film_work']]
         verbose_name = _('genre')
         verbose_name_plural = _('genres')
