@@ -17,7 +17,8 @@ class PersonFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Person
 
-    full_name = factory.Faker('name')
+    first_name = factory.Faker('first_name')
+    second_name = factory.Faker('last_name')
 
 
 class FilmworkFactory(factory.django.DjangoModelFactory):
@@ -35,7 +36,7 @@ class FilmworkFactory(factory.django.DjangoModelFactory):
             self.persons.set(extracted)
 
     title = factory.Sequence(lambda n: "filmwork title %03d" % n)
-    type = factory.Sequence(lambda n: "filmwork type %03d" % n)
+    type = factory.Iterator(('movie', 'series'))
     creation_date = factory.Faker('date')
 
 
